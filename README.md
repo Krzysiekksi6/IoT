@@ -19,9 +19,9 @@ This project aims to be a strong foundation for react-native applications. It pr
 - [react-redux](https://react-redux.js.org/) as persistance layer.
 - [@reduxjs/toolkit](https://redux-toolkit.js.org/) opinionated, batteries-included toolset for efficient Redux development
 
-<!-- ![alt text](./screenshots/splash_screen.png) -->
+## SplashScreen
 
-<img src="./screenshots/splash_screen.png" alt="drawing" width="200"/>
+<img src="./screenshots/splash_screen.png" alt="drawing" width="250"/>
 
 <!-- ## Usage
 
