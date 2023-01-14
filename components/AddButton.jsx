@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     margin: '5%',
     height: 150,
     width: '40%',
-    backgroundColor: '#f5a442',
+    backgroundColor: '#d81b60',
     borderRadius: 8,
     elevation: 4,
     shadowColor: 'black',
@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 62,
+    color: '#fff'
   },
 });

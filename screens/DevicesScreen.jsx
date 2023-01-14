@@ -155,7 +155,7 @@ const DevicesScreen = ({navigation, route}) => {
                 <View
                   key={index}
                   style={[styles.device, {backgroundColor: device.color}]}>
-                  <Text>{device.name}</Text>
+                  <Text style={styles.title}>{device.name}</Text>
                   <Text>{device.place}</Text>
                 </View>
               );
@@ -190,9 +190,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 4,
     shadowColor: 'black',
-    shadowOpacity: 0.25,
+    shadowOpacity: 1,
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 8,
     overflow: 'hidden',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });

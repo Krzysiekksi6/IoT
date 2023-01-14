@@ -33,18 +33,34 @@ const Home = ({route}) => {
 
           if (route.name === 'Connection') {
             iconName = focused ? 'bluetooth' : 'bluetooth';
-            return <FontAwesome name={iconName} size={size} color={color} />;
+            return (
+              <FontAwesome name={iconName} size={size} color={'#0082FC'} />
+            );
           } else if (route.name === 'Devices') {
             iconName = focused ? 'profile' : 'profile';
-            return <AntDesign name={iconName} size={size} color={color} />;
+            return <AntDesign name={iconName} size={size} color={'#d81b60'} />;
           }
         },
-
-        tabBarActiveTintColor: '#9BBB2D',
-        tabBarInactiveTintColor: '#808080',
       })}>
-      <Tab.Screen name="Devices" component={DevicesScreen} />
-      <Tab.Screen name="Connection" component={ConnectionScreen} />
+      <Tab.Screen
+        name="Devices"
+        component={DevicesScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: '#9c27b0',
+          },
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Tab.Screen name="Connection" component={ConnectionScreen}
+      options={{
+        headerStyle: {
+          backgroundColor: '#0082FC',
+        },
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+      }} />
     </Tab.Navigator>
   );
 };
