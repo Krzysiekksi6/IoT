@@ -8,31 +8,12 @@
 
 import React, {useEffect, useState} from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 /**
  * Custom Components and Elements
  */
 
 import DevicesScreen from './screens/DevicesScreen';
 import ConnectionScreen from './screens/ConnectionScreen';
-import ModalScreen from './screens/ModalScreen';
 
 /**
  * Third Party Libraries

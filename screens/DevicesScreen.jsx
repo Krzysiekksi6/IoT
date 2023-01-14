@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
 import {
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
+  AppState,
 } from 'react-native';
 
 /**
@@ -20,7 +21,9 @@ import {
 import DeviceGridTile from '../components/DeviceGridTIle';
 import AddButton from '../components/AddButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {updateArray} from '../store/devices';
+import { out } from 'react-native/Libraries/Animated/Easing';
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -28,45 +31,45 @@ const wait = timeout => {
 
 const DevicesScreen = ({navigation, route}) => {
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const [storageItem, setStorageItem] = React.useState([]);
   const devices = useSelector(state => state.deviceItem.devicesArray);
-  const DEVICES = [
-    {
-      color: '#368dff',
-      command: 'ON',
-      id: '0.2137cb4ec4a42',
-      name: 'Lampa',
-      place: 'Kuchnia',
-    },
-  ];
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  // const renderDeviceItem = itemData => {
-  //   return (
-  //     <DeviceGridTile
-  //       name={itemData.item.name}
-  //       place={itemData.item.place}
-  //       color={itemData.item.color}
-  //     />
-  //   );
-  // };
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  const renderDevices = () => {
-    console.log('WAZNE', DEVICES);
-    {
-      DEVICES.map((device, index) => {
-        return (
-          <View
-            key={index}
-            style={[styles.device, {backgroundColor: device.color}]}>
-            <Text>{device.name}</Text>
-            <Text>{device.place}</Text>
-          </View>
-        );
-      });
+  
+
+  const DEVICES = [{
+    id: 'asd',
+    name: "asd",
+    place: 'asd',
+    command: 'asd',
+    color: 'red'
+  },
+
+  {
+    id: 'asd',
+    name: "asd",
+    place: 'asd',
+    command: 'asd',
+    color: 'red'
+  },
+
+];
+
+  const saveData = async () => {
+    try {
+      console.log("ConCAT SAVE", storageItem.concat(devices));
+      const jsonValue = JSON.stringify(storageItem.concat(devices));
+      console.log("SAVING", jsonValue);
+      await AsyncStorage.setItem('@storage_Key', jsonValue);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -74,21 +77,56 @@ const DevicesScreen = ({navigation, route}) => {
     console.log('GETDATA');
     try {
       const jsonValue = await AsyncStorage.getItem('@storage_Key');
-      jsonValue != null ? JSON.parse(jsonValue) : null;
-      if (jsonValue !== null) {
-        console.log('JSON value', jsonValue);
-        console.log('Set Devices', devices);
+      const output = JSON.parse(jsonValue);
+      if(output !== null) {
+        console.log("OUTPUT", output);
+        console.log("...OUTPUT", ...output);
+        storageItem.push(...output)
       }
     } catch (e) {
       console.log('ERROR');
+    } finally {
+      
+      console.log("ASYNC STORAGE GET", storageItem);
+      console.log("devices", devices);
     }
-    console.log('Array of device', devices);
   };
 
+  AppState.addEventListener('change', nextAppState => {
+    if (appState.current === 'background') {
+      console.log('Savuje');
+      saveData();
+    }
+  });
+
   useEffect(() => {
-    // getData();
     onRefresh();
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        console.log('Appp has come to the foreground!');
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      console.log('AppState', appState.current);
+      // if (appState.current === 'background') {
+      //   console.log('sejving');
+      //   saveData();
+      // }
+      if (appState.current === 'active') {
+        console.log('geting');
+        getData();
+      }
+    });
+
+    return () => {
+      subscription?.remove();
+    };
   }, []);
+
   return (
     <>
       {/* <FlatList
@@ -110,7 +148,9 @@ const DevicesScreen = ({navigation, route}) => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
           <View style={styles.devices}>
-            {devices.map((device, index) => {
+            {
+            
+            storageItem.concat(devices).map((device, index) => {
               return (
                 <View
                   key={index}
@@ -120,7 +160,7 @@ const DevicesScreen = ({navigation, route}) => {
                 </View>
               );
             })}
-          <AddButton nav={navigation} />
+            <AddButton nav={navigation} />
           </View>
         </ScrollView>
       </View>

@@ -8,24 +8,6 @@
 
 import React, {useEffect, useState} from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 /**
  * Custom Components and Elements
  */
@@ -51,6 +33,8 @@ const App = () => {
   }, []);
 
   const RootStack = createStackNavigator();
+
+  
   
   return (
     <Provider store={store}>

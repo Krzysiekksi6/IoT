@@ -16,7 +16,7 @@ import {
 
 import {RadioButton} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {addDevice} from '../store/devices';
 
 const ModalScreen = ({navigation}) => {
@@ -25,13 +25,12 @@ const ModalScreen = ({navigation}) => {
   const [devicePlace, onChangePlace] = React.useState(null);
   const [deviceCommand, onChangeCommand] = React.useState(null);
 
-  // const deviceObject = useSelector((state) => state.deviceItem.item);
   const dispatch = useDispatch();
 
   const generateUniqueId = () => {
     return Math.random().toString(16);
   };
-  const saveData =async () => {
+  const saveData = async () => {
     const unqId = generateUniqueId();
     item = {
       id: unqId,
@@ -39,30 +38,22 @@ const ModalScreen = ({navigation}) => {
       place: devicePlace,
       command: deviceCommand,
       color: tilesColor,
-    }
+    };
     // Async Storage
-    try {
-      console.log("ZAPISYWANIE DO ASYNC");
-      const jsonValue = JSON.stringify(item);
-      await AsyncStorage.setItem('@storage_Key', jsonValue)
-      console.log("ZAPISYWANIE DO ASYNC2");
-    } catch (e) {
-      console.error(e);
-    }
 
-
-    dispatch(addDevice({
-      id: unqId,
-      name: deviceName,
-      place: devicePlace,
-      command: deviceCommand,
-      color: tilesColor,
-    }))
+    dispatch(
+      addDevice({
+        id: unqId,
+        name: deviceName,
+        place: devicePlace,
+        command: deviceCommand,
+        color: tilesColor,
+      }),
+    );
     navigation.navigate('Home', {
       screen: 'Devices',
     });
   };
-
 
   return (
     <View style={styles.container}>
