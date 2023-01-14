@@ -20,8 +20,8 @@ import ConnectionScreen from './screens/ConnectionScreen';
  */
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
 const Home = ({route}) => {
   const Tab = createBottomTabNavigator();
@@ -37,8 +37,8 @@ const Home = ({route}) => {
               <FontAwesome name={iconName} size={size} color={'#0082FC'} />
             );
           } else if (route.name === 'Devices') {
-            iconName = focused ? 'profile' : 'profile';
-            return <AntDesign name={iconName} size={size} color={'#d81b60'} />;
+            iconName = focused ? 'remote' : 'remote';
+            return <MaterialCommunityIcons name={iconName} size={size} color={'#d81b60'} />;
           }
         },
       })}>
